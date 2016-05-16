@@ -1,16 +1,19 @@
+# -*- coding: utf-8 -*-
+
 from scrapy import Spider
 from scrapy.selector import Selector
+from stack.items import StackItem
 
 
 class StackSpider(Spider):
     name = "stack"
     allowed_domains = ["stackoverflow.com"]
-    start_url = [
-       "http://stackoverflow.com/questions?pagesize=50&sort=newest",
+    start_urls = [
+       "http://stackoverflow.com/questions?sort=newest",
     ]
 
     def parse(self, response):
-        question = Selector(response).xpath('//div[@class="summary"]/h3')
+        questions = Selector(response).xpath('//div[@class="summary"]/h3')
 
         for question in questions:
             item = StackItem()
